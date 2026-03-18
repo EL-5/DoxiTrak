@@ -28,13 +28,13 @@ DoxiTrak is a modern, responsive personal finance dashboard built with React, Vi
 From the repository root:
 
 1. Change into the app directory:
-	- `cd doxitrak`
+	- `cd neonpay`
 2. Install dependencies:
 	- `npm install`
 
 ### Running the Development Server
 
-From inside the `doxitrak` directory:
+From inside the `neonpay` directory:
 
 1. Start the dev server:
 	- `npm run dev`
@@ -42,7 +42,7 @@ From inside the `doxitrak` directory:
 
 ### Building for Production
 
-From inside the `doxitrak` directory:
+From inside the `neonpay` directory:
 
 1. Build the app:
 	- `npm run build`
@@ -51,7 +51,7 @@ From inside the `doxitrak` directory:
 
 ## Project Structure
 
-Key folders inside `doxitrak/src`:
+Key folders inside `neonpay/src`:
 
 - `components/` – Reusable UI components such as Sidebar, Modal, StatCard, TechTicker, TransactionForm, and CustomTooltip.
 - `pages/` – Route-level views: Dashboard, Analytics, Budget, Goals, Settings, and Transactions.
@@ -60,7 +60,7 @@ Key folders inside `doxitrak/src`:
 
 ## Scripts
 
-Common npm scripts (run from `doxitrak`):
+Common npm scripts (run from `neonpay`):
 
 - `npm run dev` – Start the Vite development server.
 - `npm run build` – Create a production build.
