@@ -35,7 +35,7 @@ export default function Analytics() {
       </motion.div>
 
       {/* KPI row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: 'Income',       value: formatCurrency(income,   state.settings?.currency), color: 'text-green-600' },
           { label: 'Expenses',     value: formatCurrency(expense,  state.settings?.currency), color: 'text-red-500'   },
@@ -77,16 +77,21 @@ export default function Analytics() {
           {pieData.length === 0 ? (
             <div className="flex items-center justify-center h-[220px] text-sm" style={{ color: 'var(--text-muted)' }}>No expenses this month</div>
           ) : (
-            <div className="flex items-center gap-4">
-              <ResponsiveContainer width="55%" height={220}>
-                <PieChart>
-                  <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={90} dataKey="value" labelLine={false} label={renderCustomLabel}>
-                    {pieData.map((entry, index) => <Cell key={index} fill={entry.color} stroke="transparent" />)}
-                  </Pie>
-                  <Tooltip formatter={(v) => formatCurrency(v, state.settings.currency)} contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 10, color: 'var(--text)', fontSize: 12 }} />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="flex-1 space-y-2 min-w-0">
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <div className="w-full md:w-1/2">
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={90} dataKey="value" labelLine={false} label={renderCustomLabel}>
+                      {pieData.map((entry, index) => <Cell key={index} fill={entry.color} stroke="transparent" />)}
+                    </Pie>
+                    <Tooltip
+                      formatter={(v) => formatCurrency(v, state.settings.currency)}
+                      contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 10, color: 'var(--text)', fontSize: 12 }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="w-full md:flex-1 space-y-2 min-w-0">
                 {pieData.slice(0, 6).map((d, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs">
                     <div className="w-2 h-2 rounded-full shrink-0" style={{ background: d.color }} />

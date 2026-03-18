@@ -40,19 +40,23 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+      >
         <div>
           <p className="text-xs mb-0.5" style={{ color: 'var(--text-sub)' }}>Welcome back,</p>
           <h1 className="text-xl font-semibold" style={{ color: 'var(--text)' }}>{state.settings.name}</h1>
           <TechTicker />
         </div>
-        <button onClick={() => setShowAdd(true)} className="neon-btn">
+        <button onClick={() => setShowAdd(true)} className="neon-btn w-full sm:w-auto justify-center">
           <Plus size={14} /> Add Transaction
         </button>
       </motion.div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <StatCard label="total_balance"    value={balance}  icon={Wallet}      delay={0}    currency={state.settings.currency} />
         <StatCard label="monthly_income"   value={income}   icon={TrendingUp}   trend={incomeTrend}  trendLabel="vs last month" delay={0.05} currency={state.settings.currency} />
         <StatCard label="monthly_expenses" value={expense}  icon={TrendingDown} trend={-expenseTrend} trendLabel="vs last month" delay={0.1} currency={state.settings.currency} />
@@ -62,12 +66,12 @@ export default function Dashboard() {
       <div className="grid xl:grid-cols-3 gap-6">
         {/* Chart */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card p-5 xl:col-span-2">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
             <div>
               <h2 className="font-semibold text-sm" style={{ color: 'var(--text)' }}>Spending Trends</h2>
               <p className="text-xs mt-0.5" style={{ color: 'var(--text-sub)' }}>Last 6 months</p>
             </div>
-            <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--text-sub)' }}>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs sm:justify-end" style={{ color: 'var(--text-sub)' }}>
               <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />Income</span>
               <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-red-400 inline-block" />Expenses</span>
             </div>
@@ -132,7 +136,7 @@ export default function Dashboard() {
 
       {/* Recent Transactions */}
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="glass-card p-5">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
           <h2 className="font-semibold text-sm" style={{ color: 'var(--text)' }}>Recent Transactions</h2>
           <a href="/transactions" className="text-xs hover:underline" style={{ color: 'var(--text-sub)' }}>View all →</a>
         </div>

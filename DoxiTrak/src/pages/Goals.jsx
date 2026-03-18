@@ -116,16 +116,20 @@ export default function Goals() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+      >
         <div>
           <h1 className="text-xl font-semibold" style={{ color: 'var(--text)' }}>Goals</h1>
           <p className="text-xs mt-0.5" style={{ color: 'var(--text-sub)' }}>Savings milestones</p>
         </div>
-        <button onClick={() => setShowAdd(true)} className="neon-btn"><Plus size={14} /> New Goal</button>
+        <button onClick={() => setShowAdd(true)} className="neon-btn w-full sm:w-auto justify-center"><Plus size={14} /> New Goal</button>
       </motion.div>
 
       {/* Summary */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           { label: 'Total Targeted',  value: formatCurrency(totalTargeted, state.settings.currency) },
           { label: 'Total Saved',     value: formatCurrency(totalSaved, state.settings.currency)    },
@@ -147,7 +151,7 @@ export default function Goals() {
           <button onClick={() => setShowAdd(true)} className="neon-btn mt-4 mx-auto">Create Goal</button>
         </div>
       ) : (
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {state.goals.map((g, i) => {
             const pct      = Math.min((g.saved / g.target) * 100, 100)
             const done     = g.saved >= g.target

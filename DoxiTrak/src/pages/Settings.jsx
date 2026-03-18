@@ -20,7 +20,10 @@ const CURRENCIES = [
 
 function SettingRow({ icon: Icon, label, description, children }) {
   return (
-    <div className="flex items-center justify-between py-4 last:border-0" style={{ borderBottom: '1px solid var(--border)' }}>
+    <div
+      className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between py-4 last:border-0"
+      style={{ borderBottom: '1px solid var(--border)' }}
+    >
       <div className="flex items-center gap-3">
         <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'var(--bg-hover)', border: '1px solid var(--border)' }}>
           <Icon size={14} style={{ color: 'var(--text-sub)' }} />
@@ -30,7 +33,7 @@ function SettingRow({ icon: Icon, label, description, children }) {
           {description && <p className="text-xs mt-0.5" style={{ color: 'var(--text-sub)' }}>{description}</p>}
         </div>
       </div>
-      <div className="shrink-0">{children}</div>
+      <div className="shrink-0 w-full sm:w-auto flex justify-start sm:justify-end">{children}</div>
     </div>
   )
 }

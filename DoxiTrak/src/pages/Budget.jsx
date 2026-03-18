@@ -62,12 +62,16 @@ export default function Budget() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+      >
         <div>
           <h1 className="text-xl font-semibold" style={{ color: 'var(--text)' }}>Budget</h1>
           <p className="text-xs mt-0.5" style={{ color: 'var(--text-sub)' }}>Monthly spending limits</p>
         </div>
-        <button onClick={() => setShowAdd(true)} className="neon-btn"><Plus size={14} /> Add Budget</button>
+        <button onClick={() => setShowAdd(true)} className="neon-btn w-full sm:w-auto justify-center"><Plus size={14} /> Add Budget</button>
       </motion.div>
 
       {/* Overall budget */}
@@ -79,7 +83,7 @@ export default function Budget() {
           </div>
           <button onClick={() => setEditOverall(true)} className="text-xs hover:underline" style={{ color: 'var(--text-sub)' }}>Edit limit</button>
         </div>
-        <div className="grid grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
           <div className="text-center">
             <p className="text-xs mb-1" style={{ color: 'var(--text-sub)' }}>Limit</p>
             <p className="text-lg font-bold font-mono" style={{ color: 'var(--text)' }}>{formatCurrency(state.settings.monthlyBudget, state.settings.currency)}</p>
@@ -119,7 +123,7 @@ export default function Budget() {
           <p className="text-sm mt-1 opacity-60">Create budgets to track spending per category</p>
         </div>
       ) : (
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {budgetStats.map((b, i) => (
             <motion.div key={b.id}
               initial={{ opacity: 0, y: 12, scale: 0.97 }}

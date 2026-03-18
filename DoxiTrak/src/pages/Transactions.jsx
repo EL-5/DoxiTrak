@@ -52,18 +52,22 @@ export default function Transactions() {
   return (
     <div className="space-y-5">
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+      >
         <div>
           <h1 className="text-xl font-semibold" style={{ color: 'var(--text)' }}>Transactions</h1>
           <p className="text-xs mt-0.5" style={{ color: 'var(--text-sub)' }}>{filtered.length} entries</p>
         </div>
-        <button onClick={() => setShowAdd(true)} className="neon-btn">
+        <button onClick={() => setShowAdd(true)} className="neon-btn w-full sm:w-auto justify-center">
           <Plus size={14} /> Add
         </button>
       </motion.div>
 
       {/* Summary mini cards */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {[
           { label: 'Filtered Income',  value: totalIncome,  color: 'text-green-400' },
           { label: 'Filtered Expenses',value: totalExpense, color: 'text-red-400' },
@@ -78,7 +82,7 @@ export default function Transactions() {
 
       {/* Search & Filters */}
       <div className="glass-card p-4 space-y-3">
-        <div className="flex gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="relative flex-1">
             <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
             <input
@@ -91,7 +95,7 @@ export default function Transactions() {
           </div>
           <button
             onClick={() => setShowFilters(s => !s)}
-            className="px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 transition-colors"
+            className="px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center sm:justify-normal gap-2 transition-colors w-full sm:w-auto"
             style={{
               background: showFilters ? 'var(--bg-hover)' : 'var(--bg-hover)',
               border: `1px solid ${showFilters ? 'var(--border-mid)' : 'var(--border)'}`,
@@ -105,7 +109,7 @@ export default function Transactions() {
         <AnimatePresence>
           {showFilters && (
             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-              <div className="grid grid-cols-3 gap-3 pt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                 <div>
                   <label className="text-xs mb-1 block" style={{ color: 'var(--text-sub)' }}>Type</label>
                   <select className="input-field py-2" value={filterType} onChange={e => setFilterType(e.target.value)}>
@@ -151,7 +155,7 @@ export default function Transactions() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: i * 0.02 }}
-                className="flex items-center gap-4 p-4 transition-colors group"
+                className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-4 transition-colors group"
                 style={{ borderBottom: '1px solid var(--border)' }}
                 onMouseEnter={e => e.currentTarget.style.background = 'var(--bg-hover)'}
                 onMouseLeave={e => e.currentTarget.style.background = ''}
@@ -168,12 +172,12 @@ export default function Transactions() {
                   </div>
                   <p className="text-xs truncate" style={{ color: 'var(--text-sub)' }}>{t.note || '—'} · {formatDate(t.date)}</p>
                 </div>
-                <div className="text-right shrink-0">
+                <div className="mt-2 sm:mt-0 text-left sm:text-right sm:ml-auto shrink-0">
                   <p className={`text-sm font-bold font-mono ${t.type === 'income' ? 'text-green-600' : 'text-red-500'}`}>
                     {t.type === 'income' ? '+' : '-'}{formatCurrency(t.amount, state.settings.currency)}
                   </p>
                 </div>
-                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                <div className="flex items-center gap-1 mt-2 sm:mt-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity shrink-0 self-end sm:self-auto">
                   <button onClick={() => setEditing(t)} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors" style={{ background: 'var(--bg-hover)', color: 'var(--text-sub)' }}>
                     <Pencil size={13} />
                   </button>
