@@ -27,19 +27,18 @@ export default function TransactionForm({ initial, onSubmit, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Type toggle */}
-      <div className="flex gap-2 p-1 bg-[#141414] rounded-xl">
+      <div className="flex gap-2 p-1 rounded-xl" style={{ background: 'var(--bg-hover)' }}>
         {['expense', 'income'].map(t => (
           <button
             key={t}
             type="button"
             onClick={() => set('type', t)}
-            className={`flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all duration-200 ${
-              form.type === t
-                ? t === 'income'
-                  ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                  : 'bg-red-500/20 text-red-400 border border-red-500/30'
-                : 'text-gray-500 hover:text-gray-300'
-            }`}
+            className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all duration-200"
+            style={form.type === t ? {
+              background: t === 'income' ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)',
+              color:      t === 'income' ? '#16a34a' : '#dc2626',
+              border:     `1px solid ${t === 'income' ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)'}`,
+            } : { color: 'var(--text-sub)' }}
           >
             {t}
           </button>
@@ -48,25 +47,22 @@ export default function TransactionForm({ initial, onSubmit, onCancel }) {
 
       {/* Amount */}
       <div>
-        <label className="block text-xs font-medium text-gray-400 mb-1.5">Amount</label>
-        <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">$</span>
-          <input
-            className="input-field pl-8"
-            type="number"
-            placeholder="0.00"
-            step="0.01"
-            min="0.01"
-            value={form.amount}
-            onChange={e => set('amount', e.target.value)}
-            required
-          />
-        </div>
+        <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-sub)' }}>Amount</label>
+        <input
+          className="input-field"
+          type="number"
+          placeholder="0.00"
+          step="0.01"
+          min="0.01"
+          value={form.amount}
+          onChange={e => set('amount', e.target.value)}
+          required
+        />
       </div>
 
       {/* Category */}
       <div>
-        <label className="block text-xs font-medium text-gray-400 mb-1.5">Category</label>
+        <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-sub)' }}>Category</label>
         <select className="input-field" value={form.category} onChange={e => set('category', e.target.value)}>
           {cats.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
@@ -74,13 +70,15 @@ export default function TransactionForm({ initial, onSubmit, onCancel }) {
 
       {/* Date */}
       <div>
-        <label className="block text-xs font-medium text-gray-400 mb-1.5">Date</label>
+        <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-sub)' }}>Date</label>
         <input className="input-field" type="date" value={form.date} onChange={e => set('date', e.target.value)} required />
       </div>
 
       {/* Note */}
       <div>
-        <label className="block text-xs font-medium text-gray-400 mb-1.5">Note <span className="text-gray-600">(optional)</span></label>
+        <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-sub)' }}>
+          Note <span style={{ color: 'var(--text-muted)' }}>(optional)</span>
+        </label>
         <input className="input-field" type="text" placeholder="Add a note..." value={form.note} onChange={e => set('note', e.target.value)} maxLength={100} />
       </div>
 

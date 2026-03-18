@@ -5,11 +5,11 @@ import { useApp } from '../store/AppContext'
 import { formatCurrency, formatDate } from '../utils/finance'
 import Modal from '../components/Modal'
 
-const GOAL_COLORS = ['#00FF9F', '#818cf8', '#f59e0b', '#f87171', '#60a5fa', '#e879f9', '#34d399', '#fb923c']
+const GOAL_COLORS = ['#1a1a1a', '#3b3b3b', '#6b6b6b', '#ef4444', '#3b82f6', '#8b5cf6', '#f59e0b', '#10b981']
 const GOAL_ICONS  = ['🎯', '💻', '✈️', '🏠', '🚗', '📱', '💍', '🛡️', '📚', '💰', '🏋️', '🎓']
 
 function GoalForm({ initial, onSubmit, onCancel }) {
-  const [form, setForm] = useState(initial || { name: '', target: '', saved: '', icon: '🎯', color: '#00FF9F', deadline: '' })
+  const [form, setForm] = useState(initial || { name: '', target: '', saved: '', icon: '🎯', color: '#3b3b3b', deadline: '' })
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -19,43 +19,52 @@ function GoalForm({ initial, onSubmit, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="text-xs text-gray-400 mb-1.5 block">Goal Name</label>
+        <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-sub)' }}>Goal Name</label>
         <input className="input-field" placeholder="e.g. Buy a Laptop" value={form.name} onChange={e => set('name', e.target.value)} required />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-gray-400 mb-1.5 block">Target Amount</label>
-          <div className="relative"><span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-            <input className="input-field pl-8" type="number" min="1" placeholder="0" value={form.target} onChange={e => set('target', e.target.value)} required /></div>
+          <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-sub)' }}>Target Amount</label>
+          <input className="input-field" type="number" min="1" placeholder="0" value={form.target} onChange={e => set('target', e.target.value)} required />
         </div>
         <div>
-          <label className="text-xs text-gray-400 mb-1.5 block">Saved So Far</label>
-          <div className="relative"><span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-            <input className="input-field pl-8" type="number" min="0" placeholder="0" value={form.saved} onChange={e => set('saved', e.target.value)} /></div>
+          <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-sub)' }}>Saved So Far</label>
+          <input className="input-field" type="number" min="0" placeholder="0" value={form.saved} onChange={e => set('saved', e.target.value)} />
         </div>
       </div>
       <div>
-        <label className="text-xs text-gray-400 mb-1.5 block">Deadline <span className="text-gray-600">(optional)</span></label>
+        <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-sub)' }}>Deadline <span style={{ color: 'var(--text-muted)' }}>(optional)</span></label>
         <input className="input-field" type="date" value={form.deadline} onChange={e => set('deadline', e.target.value)} />
       </div>
       <div>
-        <label className="text-xs text-gray-400 mb-2 block">Icon</label>
+        <label className="text-xs mb-2 block" style={{ color: 'var(--text-sub)' }}>Icon</label>
         <div className="flex flex-wrap gap-2">
           {GOAL_ICONS.map(ic => (
             <button key={ic} type="button" onClick={() => set('icon', ic)}
-              className={`w-9 h-9 rounded-xl text-lg transition-all ${form.icon === ic ? 'bg-[#00FF9F]/20 border-2 border-[#00FF9F] scale-110' : 'bg-[#1A1A1A] border border-[#2A2A2A] hover:bg-[#2A2A2A]'}`}>
+              className="w-9 h-9 rounded-xl text-lg transition-all"
+              style={{
+                background: form.icon === ic ? 'var(--bg-hover)' : 'var(--input-bg)',
+                border: `${form.icon === ic ? '2px' : '1px'} solid ${form.icon === ic ? 'var(--border-mid)' : 'var(--border)'}`,
+                transform: form.icon === ic ? 'scale(1.1)' : 'scale(1)',
+              }}>
               {ic}
             </button>
           ))}
         </div>
       </div>
       <div>
-        <label className="text-xs text-gray-400 mb-2 block">Color</label>
+        <label className="text-xs mb-2 block" style={{ color: 'var(--text-sub)' }}>Color</label>
         <div className="flex gap-2 flex-wrap">
           {GOAL_COLORS.map(c => (
             <button key={c} type="button" onClick={() => set('color', c)}
-              className={`w-7 h-7 rounded-full transition-all ${form.color === c ? 'scale-125 ring-2 ring-white/40' : 'hover:scale-110'}`}
-              style={{ background: c }} />
+              className="w-7 h-7 rounded-full transition-all"
+              style={{
+                background: c,
+                border: '2px solid transparent',
+                transform: form.color === c ? 'scale(1.25)' : 'scale(1)',
+                outline: form.color === c ? '2px solid var(--border-mid)' : 'none',
+                outlineOffset: '2px',
+              }} />
           ))}
         </div>
       </div>
@@ -77,11 +86,10 @@ function AddFundsModal({ goal, onSubmit, onCancel }) {
   }
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <p className="text-sm text-gray-400">Add funds to <span className="text-white font-medium">{goal?.name}</span></p>
+      <p className="text-sm" style={{ color: 'var(--text-sub)' }}>Add funds to <span className="font-medium" style={{ color: 'var(--text)' }}>{goal?.name}</span></p>
       <div>
-        <label className="text-xs text-gray-400 mb-1.5 block">Amount to Add</label>
-        <div className="relative"><span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-          <input className="input-field pl-8" type="number" min="0.01" step="0.01" placeholder="0.00" value={amount} onChange={e => setAmount(e.target.value)} required /></div>
+        <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-sub)' }}>Amount to Add</label>
+        <input className="input-field" type="number" min="0.01" step="0.01" placeholder="0.00" value={amount} onChange={e => setAmount(e.target.value)} required />
       </div>
       <div className="flex gap-3">
         <button type="button" onClick={onCancel} className="neon-outline-btn flex-1 justify-center">Cancel</button>
@@ -110,8 +118,8 @@ export default function Goals() {
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-white">Goals</h1>
-          <p className="text-xs text-gray-600 mt-0.5">Savings milestones</p>
+          <h1 className="text-xl font-semibold" style={{ color: 'var(--text)' }}>Goals</h1>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-sub)' }}>Savings milestones</p>
         </div>
         <button onClick={() => setShowAdd(true)} className="neon-btn"><Plus size={14} /> New Goal</button>
       </motion.div>
@@ -119,20 +127,20 @@ export default function Goals() {
       {/* Summary */}
       <div className="grid grid-cols-3 gap-4">
         {[
-          { label: 'Total Targeted', value: formatCurrency(totalTargeted, state.settings.currency), color: 'text-white' },
-          { label: 'Total Saved',    value: formatCurrency(totalSaved, state.settings.currency),    color: 'text-[#00FF9F]' },
-          { label: 'Goals Completed', value: `${completed} / ${state.goals.length}`, color: 'text-purple-400' },
+          { label: 'Total Targeted',  value: formatCurrency(totalTargeted, state.settings.currency) },
+          { label: 'Total Saved',     value: formatCurrency(totalSaved, state.settings.currency)    },
+          { label: 'Goals Completed', value: `${completed} / ${state.goals.length}`                },
         ].map((s, i) => (
           <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="glass-card p-4 text-center">
-            <p className="text-xs text-gray-500 mb-1">{s.label}</p>
-            <p className={`text-lg font-bold font-mono ${s.color}`}>{s.value}</p>
+            <p className="text-xs mb-1" style={{ color: 'var(--text-sub)' }}>{s.label}</p>
+            <p className="text-lg font-bold font-mono" style={{ color: 'var(--text)' }}>{s.value}</p>
           </motion.div>
         ))}
       </div>
 
       {/* Goals grid */}
       {state.goals.length === 0 ? (
-        <div className="glass-card p-14 text-center text-gray-600">
+        <div className="glass-card p-14 text-center" style={{ color: 'var(--text-muted)' }}>
           <Target size={40} className="mx-auto mb-3 opacity-25" />
           <p className="font-medium text-base">No goals yet</p>
           <p className="text-sm mt-1 opacity-60">Create your first savings goal to get started</p>
@@ -141,8 +149,8 @@ export default function Goals() {
       ) : (
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
           {state.goals.map((g, i) => {
-            const pct     = Math.min((g.saved / g.target) * 100, 100)
-            const done    = g.saved >= g.target
+            const pct      = Math.min((g.saved / g.target) * 100, 100)
+            const done     = g.saved >= g.target
             const daysLeft = g.deadline ? Math.ceil((new Date(g.deadline) - new Date()) / (1000*60*60*24)) : null
             return (
               <motion.div key={g.id}
@@ -150,19 +158,21 @@ export default function Goals() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className={`glass-card p-5 border ${done ? 'border-[#00FF9F]/30' : 'border-[#2A2A2A]'} group relative`}>
+                className="glass-card p-5 group relative">
                 {done && (
-                  <div className="absolute top-3 right-3 text-xs px-2 py-0.5 bg-[#00FF9F]/15 text-[#00FF9F] border border-[#00FF9F]/25 rounded-full font-medium">✓ Complete</div>
+                  <div className="absolute top-3 right-3 text-xs px-2 py-0.5 rounded-full font-medium text-green-600 bg-green-500/8 border border-green-500/15">✓ Complete</div>
                 )}
                 {/* Header */}
                 <div className="flex items-start gap-3 mb-4">
-                  <div className="w-11 h-11 rounded-2xl flex items-center justify-center text-xl shrink-0" style={{ background: `${g.color}18`, border: `1px solid ${g.color}30` }}>
+                  <div className="w-11 h-11 rounded-2xl flex items-center justify-center text-xl shrink-0"
+                    style={{ background: 'var(--bg-hover)', border: '1px solid var(--border)' }}>
                     {g.icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-white truncate">{g.name}</p>
+                    <p className="font-semibold truncate" style={{ color: 'var(--text)' }}>{g.name}</p>
                     {g.deadline && (
-                      <p className={`text-xs ${daysLeft !== null && daysLeft < 30 ? 'text-amber-400' : 'text-gray-500'}`}>
+                      <p className={`text-xs ${daysLeft !== null && daysLeft < 30 ? 'text-amber-500' : ''}`}
+                        style={daysLeft === null || daysLeft >= 30 ? { color: 'var(--text-sub)' } : {}}>
                         {daysLeft !== null && daysLeft >= 0 ? `${daysLeft} days left` : 'Deadline passed'} · {formatDate(g.deadline)}
                       </p>
                     )}
@@ -172,33 +182,34 @@ export default function Goals() {
                 {/* Progress */}
                 <div className="mb-3">
                   <div className="flex justify-between text-xs mb-1.5">
-                    <span className="text-gray-400 font-mono">{formatCurrency(g.saved, state.settings.currency)}</span>
-                    <span className="text-gray-600 font-mono">{formatCurrency(g.target, state.settings.currency)}</span>
+                    <span className="font-mono" style={{ color: 'var(--text-sub)' }}>{formatCurrency(g.saved, state.settings.currency)}</span>
+                    <span className="font-mono" style={{ color: 'var(--text-muted)' }}>{formatCurrency(g.target, state.settings.currency)}</span>
                   </div>
-                  <div className="h-2.5 rounded-full bg-[#1E1E1E] overflow-hidden">
+                  <div className="h-2 rounded-full overflow-hidden" style={{ background: 'var(--bg-hover)' }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${pct}%` }}
                       transition={{ duration: 0.9, ease: 'easeOut', delay: i * 0.05 }}
                       className="h-full rounded-full"
-                      style={{ background: done ? `linear-gradient(90deg, ${g.color}, #00cc7e)` : g.color, boxShadow: `0 0 8px ${g.color}60` }}
+                      style={{ background: done ? '#22c55e' : 'var(--text)' }}
                     />
                   </div>
                   <div className="flex justify-between text-xs mt-1">
-                    <span style={{ color: g.color }} className="font-semibold">{pct.toFixed(0)}% saved</span>
-                    {!done && <span className="text-gray-600">{formatCurrency(g.target - g.saved, state.settings.currency)} to go</span>}
+                    <span className="font-semibold" style={{ color: 'var(--text-sub)' }}>{pct.toFixed(0)}% saved</span>
+                    {!done && <span style={{ color: 'var(--text-muted)' }}>{formatCurrency(g.target - g.saved, state.settings.currency)} to go</span>}
                   </div>
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-2 mt-4 pt-3 border-t border-[#1E1E1E]">
+                <div className="flex gap-2 mt-4 pt-3" style={{ borderTop: '1px solid var(--border)' }}>
                   {!done && (
-                    <button onClick={() => setAddFunds(g)} className="flex-1 py-1.5 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-colors" style={{ background: `${g.color}18`, color: g.color, border: `1px solid ${g.color}30` }}>
+                    <button onClick={() => setAddFunds(g)} className="flex-1 py-1.5 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-colors"
+                      style={{ background: 'var(--bg-hover)', color: 'var(--text-sub)', border: '1px solid var(--border)' }}>
                       <PlusCircle size={12} /> Add Funds
                     </button>
                   )}
-                  <button onClick={() => setEditing(g)} className="w-8 h-8 rounded-lg bg-[#1A1A1A] hover:bg-[#2A2A2A] flex items-center justify-center text-gray-500 hover:text-white transition-colors"><Pencil size={12} /></button>
-                  <button onClick={() => setToDelete(g.id)} className="w-8 h-8 rounded-lg bg-[#1A1A1A] hover:bg-red-500/20 flex items-center justify-center text-gray-500 hover:text-red-400 transition-colors"><Trash2 size={12} /></button>
+                  <button onClick={() => setEditing(g)} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors" style={{ background: 'var(--bg-hover)', color: 'var(--text-sub)' }}><Pencil size={12} /></button>
+                  <button onClick={() => setToDelete(g.id)} className="w-8 h-8 rounded-lg flex items-center justify-center text-red-500 hover:bg-red-500/10 transition-colors" style={{ background: 'var(--bg-hover)' }}><Trash2 size={12} /></button>
                 </div>
               </motion.div>
             )
@@ -217,10 +228,10 @@ export default function Goals() {
         <AddFundsModal goal={addFunds} onSubmit={handleAddFunds} onCancel={() => setAddFunds(null)} />
       </Modal>
       <Modal open={!!toDelete} onClose={() => setToDelete(null)} title="Delete Goal" maxWidth="max-w-sm">
-        <p className="text-gray-400 text-sm mb-5">Delete this savings goal? This cannot be undone.</p>
+        <p className="text-sm mb-5" style={{ color: 'var(--text-sub)' }}>Delete this savings goal? This cannot be undone.</p>
         <div className="flex gap-3">
           <button onClick={() => setToDelete(null)} className="neon-outline-btn flex-1 justify-center">Cancel</button>
-          <button onClick={() => { deleteGoal(toDelete); setToDelete(null) }} className="flex-1 py-2.5 px-5 rounded-xl bg-red-500/20 text-red-400 border border-red-500/30 font-semibold hover:bg-red-500/30 transition-colors">Delete</button>
+          <button onClick={() => { deleteGoal(toDelete); setToDelete(null) }} className="flex-1 py-2.5 px-5 rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 font-semibold hover:bg-red-500/15 transition-colors">Delete</button>
         </div>
       </Modal>
     </div>

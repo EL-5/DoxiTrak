@@ -28,7 +28,7 @@ function AnimatedValue({ value, currency, duration = 800 }) {
   return <>{formatCurrency(display, currency)}</>
 }
 
-export default function StatCard({ label, value, icon: Icon, color = '#00FF9F', trend, trendLabel, currency = 'USD', delay = 0 }) {
+export default function StatCard({ label, value, icon: Icon, color, trend, trendLabel, currency = 'USD', delay = 0 }) {
   const isUp = trend > 0
   return (
     <motion.div
@@ -37,23 +37,16 @@ export default function StatCard({ label, value, icon: Icon, color = '#00FF9F', 
       transition={{ delay, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -2, transition: { duration: 0.18 } }}
       className="glass-card p-5 relative overflow-hidden"
-      style={{ borderColor: `${color}18` }}
     >
-      {/* Very subtle ambient glow — top-right corner only */}
-      <div
-        className="absolute -top-10 -right-10 w-24 h-24 rounded-full pointer-events-none opacity-[0.04]"
-        style={{ background: color, filter: 'blur(24px)' }}
-      />
-
       <div className="flex items-start justify-between mb-4 relative z-10">
         <div
           className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
-          style={{ background: `${color}10`, border: `1px solid ${color}20` }}
+          style={{ background: 'var(--bg-hover)', border: '1px solid var(--border)' }}
         >
-          <Icon size={16} style={{ color, opacity: 0.9 }} />
+          <Icon size={16} style={{ color: 'var(--text-sub)' }} />
         </div>
         {trend !== undefined && (
-          <div className={`flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full ${isUp ? 'text-green-400 bg-green-500/8' : 'text-red-400 bg-red-500/8'}`}>
+          <div className={`flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full ${isUp ? 'text-green-600 bg-green-500/8' : 'text-red-500 bg-red-500/8'}`}>
             {isUp ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
             {Math.abs(trend)}%
           </div>
@@ -61,11 +54,11 @@ export default function StatCard({ label, value, icon: Icon, color = '#00FF9F', 
       </div>
 
       <div className="relative z-10">
-        <p className="text-[10px] text-gray-600 mb-1 font-medium uppercase tracking-widest">{label}</p>
-        <p className="text-2xl font-semibold text-white font-mono num-glow">
+        <p className="text-[10px] mb-1 font-medium uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{label}</p>
+        <p className="text-2xl font-semibold font-mono num-glow" style={{ color: 'var(--text)' }}>
           <AnimatedValue value={value} currency={currency} />
         </p>
-        {trendLabel && <p className="text-[11px] text-gray-600 mt-1">{trendLabel}</p>}
+        {trendLabel && <p className="text-[11px] mt-1" style={{ color: 'var(--text-sub)' }}>{trendLabel}</p>}
       </div>
     </motion.div>
   )

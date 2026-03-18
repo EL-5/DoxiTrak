@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Download, Trash2, User, DollarSign, Bell, Database, CheckCircle, Save } from 'lucide-react'
+import { Download, Trash2, User, DollarSign, Bell, Database, CheckCircle, Save, Sun, Moon } from 'lucide-react'
 import { useApp } from '../store/AppContext'
 import { exportToCSV } from '../utils/finance'
 import Modal from '../components/Modal'
@@ -20,14 +20,14 @@ const CURRENCIES = [
 
 function SettingRow({ icon: Icon, label, description, children }) {
   return (
-    <div className="flex items-center justify-between py-4 border-b border-[#1A1A1A] last:border-0">
+    <div className="flex items-center justify-between py-4 last:border-0" style={{ borderBottom: '1px solid var(--border)' }}>
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-[#161616] border border-[#222] flex items-center justify-center shrink-0">
-          <Icon size={14} className="text-gray-400" />
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'var(--bg-hover)', border: '1px solid var(--border)' }}>
+          <Icon size={14} style={{ color: 'var(--text-sub)' }} />
         </div>
         <div>
-          <p className="text-sm font-medium text-white">{label}</p>
-          {description && <p className="text-xs text-gray-600 mt-0.5">{description}</p>}
+          <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>{label}</p>
+          {description && <p className="text-xs mt-0.5" style={{ color: 'var(--text-sub)' }}>{description}</p>}
         </div>
       </div>
       <div className="shrink-0">{children}</div>
@@ -77,9 +77,10 @@ export default function Settings() {
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
-            className="fixed top-5 right-5 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#161616] border border-[#2a2a2a] text-sm text-white shadow-2xl"
+            className="fixed top-5 right-5 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-sm shadow-2xl"
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border-mid)', color: 'var(--text)' }}
           >
-            <CheckCircle size={14} className="text-[#00FF9F] shrink-0" />
+            <CheckCircle size={14} className="shrink-0" style={{ color: 'var(--text)' }} />
             {toast}
           </motion.div>
         )}
@@ -88,8 +89,8 @@ export default function Settings() {
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-white">Settings</h1>
-          <p className="text-sm text-gray-600 mt-0.5">Manage your account preferences</p>
+          <h1 className="text-xl font-semibold" style={{ color: 'var(--text)' }}>Settings</h1>
+          <p className="text-sm mt-0.5" style={{ color: 'var(--text-sub)' }}>Manage your account preferences</p>
         </div>
 
         {/* Save / Discard — only shown when there are unsaved changes */}
@@ -134,7 +135,7 @@ export default function Settings() {
 
       {/* Profile */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="glass-card p-5">
-        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Profile</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>Profile</h2>
         <SettingRow icon={User} label="Display Name" description="Your name shown in the app">
           <input
             className="input-field w-48 py-2 text-sm text-right"
@@ -146,7 +147,7 @@ export default function Settings() {
 
       {/* Preferences */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }} className="glass-card p-5">
-        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Preferences</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>Preferences</h2>
         <SettingRow icon={DollarSign} label="Currency" description="Display currency for all amounts">
           <select
             className="input-field w-52 py-2 text-sm"
@@ -165,18 +166,34 @@ export default function Settings() {
             onChange={e => setDraftField('monthlyBudget', Number(e.target.value))}
           />
         </SettingRow>
+        <SettingRow icon={draft.theme === 'dark' ? Moon : Sun} label="Appearance" description="Toggle between light and dark mode">
+          <button
+            onClick={() => setDraftField('theme', draft.theme === 'dark' ? 'light' : 'dark')}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-colors"
+            style={{
+              background: 'var(--bg-hover)',
+              border: '1px solid var(--border-mid)',
+              color: 'var(--text)',
+            }}
+          >
+            {draft.theme === 'dark'
+              ? <><Moon size={13} /> Dark</>
+              : <><Sun size={13} /> Light</>
+            }
+          </button>
+        </SettingRow>
       </motion.div>
 
       {/* Data management */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.11 }} className="glass-card p-5">
-        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Data</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>Data</h2>
         <SettingRow icon={Download} label="Export Transactions" description="Download your full transaction history as CSV">
           <button onClick={handleExportCSV} className="neon-outline-btn py-2 px-4 text-sm">
             <Download size={13} /> Export CSV
           </button>
         </SettingRow>
         <SettingRow icon={Database} label="Local Storage" description={`${state.transactions.length} transactions · ${state.goals.length} goals · ${state.budgets.length} budgets`}>
-          <span className="text-xs text-gray-600 font-mono bg-[#161616] border border-[#222] px-2.5 py-1 rounded-lg">localStorage</span>
+          <span className="text-xs font-mono px-2.5 py-1 rounded-lg" style={{ color: 'var(--text-sub)', background: 'var(--bg-hover)', border: '1px solid var(--border)' }}>localStorage</span>
         </SettingRow>
         <SettingRow icon={Trash2} label="Reset All Data" description="Permanently clear all app data and settings">
           <button
@@ -190,17 +207,17 @@ export default function Settings() {
 
       {/* About */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14 }} className="glass-card p-5">
-        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">About</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>About</h2>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-[#00FF9F]/10 border border-[#00FF9F]/20">
-            <span className="text-[#00FF9F] text-base">⚡</span>
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'var(--bg-hover)', border: '1px solid var(--border)' }}>
+            <span className="text-base">📊</span>
           </div>
           <div>
-            <p className="text-sm font-semibold text-white">NeonPay</p>
-            <p className="text-xs text-gray-600">Personal Finance Tracker · v1.0.0</p>
+            <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>DoxiTrak</p>
+            <p className="text-xs" style={{ color: 'var(--text-sub)' }}>Personal Finance Tracker · v1.0.0</p>
           </div>
         </div>
-        <p className="text-xs text-gray-600 leading-relaxed mt-3">
+        <p className="text-xs leading-relaxed mt-3" style={{ color: 'var(--text-sub)' }}>
           A personal finance dashboard for tracking income, expenses, budgets and savings goals. All data is stored locally on your device.
         </p>
       </motion.div>

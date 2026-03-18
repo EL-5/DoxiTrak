@@ -28,10 +28,11 @@ export default function Modal({ open, onClose, title, children, maxWidth = 'max-
             className={`relative w-full ${maxWidth} glass-card p-6 z-10`}
           >
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-lg font-semibold text-white">{title}</h2>
+              <h2 className="text-lg font-semibold" style={{ color: 'var(--text)' }}>{title}</h2>
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-lg bg-[#2A2A2A] hover:bg-[#3A3A3A] flex items-center justify-center text-gray-400 hover:text-white transition-colors"
+                className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
+                style={{ background: 'var(--bg-hover)', color: 'var(--text-sub)' }}
               >
                 <X size={16} />
               </button>

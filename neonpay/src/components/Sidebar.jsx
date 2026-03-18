@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  LayoutDashboard, ArrowLeftRight, BarChart3, Target, Wallet, Settings, Zap, X, Menu
+  LayoutDashboard, ArrowLeftRight, BarChart3, Target, Wallet, Settings, X, Menu
 } from 'lucide-react'
 import { useState } from 'react'
+import { useApp } from '../store/AppContext'
 
 const NAV = [
   { to: '/',            label: 'Dashboard',    icon: LayoutDashboard },
@@ -15,26 +16,19 @@ const NAV = [
 ]
 
 function SidebarContent({ onClose }) {
+  const { state } = useApp()
+  const name = state.settings.name || 'User'
+  const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
+
   return (
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="flex items-center justify-between mb-8 px-1">
-        <div className="flex items-center gap-2.5">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-            style={{ background: '#00FF9F' }}
-          >
-            <Zap size={16} className="text-black" fill="black" />
-          </div>
-          <span
-            className="text-[15px] font-semibold text-white tracking-tight logo-glitch"
-            data-text="NeonPay"
-          >
-            NeonPay
-          </span>
-        </div>
+        <span className="text-[17px] font-semibold tracking-tight" style={{ color: 'var(--text)' }}>
+          Doxi<span style={{ color: 'var(--text-sub)' }}>Trak</span>
+        </span>
         {onClose && (
-          <button onClick={onClose} className="lg:hidden text-gray-600 hover:text-white transition-colors">
+          <button onClick={onClose} className="lg:hidden transition-colors" style={{ color: 'var(--text-muted)' }}>
             <X size={17} />
           </button>
         )}
@@ -63,18 +57,19 @@ function SidebarContent({ onClose }) {
       </nav>
 
       {/* Footer */}
-      <div className="mt-auto pt-4 border-t border-[#161616]">
+      <div className="mt-auto pt-4" style={{ borderTop: '1px solid var(--border)' }}>
         <div className="flex items-center gap-2.5 px-1">
-          <div className="w-7 h-7 rounded-lg bg-[#00FF9F]/10 border border-[#00FF9F]/15 flex items-center justify-center text-[#00FF9F] font-semibold text-[10px] shrink-0">
-            AJ
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center font-semibold text-[10px] shrink-0"
+            style={{ background: 'var(--bg-hover)', border: '1px solid var(--border)', color: 'var(--text)' }}>
+            {initials}
           </div>
           <div className="min-w-0">
-            <p className="text-xs font-medium text-white truncate">Alex Johnson</p>
-            <p className="text-[10px] text-gray-600 truncate">Personal account</p>
+            <p className="text-xs font-medium truncate" style={{ color: 'var(--text)' }}>{name}</p>
+            <p className="text-[10px] truncate" style={{ color: 'var(--text-muted)' }}>Personal account</p>
           </div>
           <div className="ml-auto shrink-0">
-            <span className="flex items-center gap-1 text-[9px] text-gray-700 font-mono">
-              <span className="w-1 h-1 rounded-full bg-[#00FF9F] opacity-60" />
+            <span className="flex items-center gap-1 text-[9px] font-mono" style={{ color: 'var(--text-muted)' }}>
+              <span className="w-1 h-1 rounded-full" style={{ background: 'var(--text-sub)' }} />
               online
             </span>
           </div>
@@ -90,14 +85,16 @@ export default function Sidebar() {
   return (
     <>
       {/* Desktop */}
-      <aside className="hidden lg:flex flex-col w-56 shrink-0 border-r border-[#161616] p-5 h-screen sticky top-0 bg-[#0a0a0a]">
+      <aside className="hidden lg:flex flex-col w-56 shrink-0 p-5 h-screen sticky top-0"
+        style={{ background: 'var(--bg-card)', borderRight: '1px solid var(--border)' }}>
         <SidebarContent />
       </aside>
 
       {/* Mobile toggle */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 w-9 h-9 bg-[#111] border border-[#222] rounded-xl flex items-center justify-center text-gray-500 hover:text-white transition-colors"
+        className="lg:hidden fixed top-4 left-4 z-50 w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+        style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text-sub)' }}
       >
         <Menu size={16} />
       </button>
@@ -109,7 +106,8 @@ export default function Sidebar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+            className="lg:hidden fixed inset-0 z-40 backdrop-blur-sm"
+            style={{ background: 'rgba(0,0,0,0.4)' }}
             onClick={() => setMobileOpen(false)}
           />
         )}
@@ -120,7 +118,8 @@ export default function Sidebar() {
         initial={{ x: -240 }}
         animate={{ x: mobileOpen ? 0 : -240 }}
         transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-        className="lg:hidden fixed top-0 left-0 h-full w-56 border-r border-[#161616] p-5 z-50 bg-[#0a0a0a]"
+        className="lg:hidden fixed top-0 left-0 h-full w-56 p-5 z-50"
+        style={{ background: 'var(--bg-card)', borderRight: '1px solid var(--border)' }}
       >
         <SidebarContent onClose={() => setMobileOpen(false)} />
       </motion.aside>
