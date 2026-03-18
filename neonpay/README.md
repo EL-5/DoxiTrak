@@ -1,16 +1,72 @@
-# React + Vite
+<h1 align="center">DoxiTrak – Personal Finance Tracker</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DoxiTrak is a modern, responsive personal finance dashboard built with React, Vite, and Tailwind CSS. It helps individuals track income and expenses, visualize spending patterns, set budgets and goals, and monitor key financial metrics in a clean, fintech-inspired UI.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Interactive dashboard** – Overview of balances, recent transactions, and key KPIs.
+- **Transactions management** – Add, edit, and categorize income and expenses.
+- **Budgets & goals** – Track spending against budgets and progress toward savings goals.
+- **Analytics** – Charts and insights to understand where money goes over time.
+- **Responsive layout** – Optimized for desktop and tablet viewports.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend:** React, Vite
+- **Styling:** Tailwind CSS, custom components
+- **State management:** React Context (AppContext)
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+
+- Node.js (LTS version recommended)
+- npm (comes with Node.js)
+
+### Installation
+
+From the repository root:
+
+1. Change into the app directory:
+	- `cd doxitrak`
+2. Install dependencies:
+	- `npm install`
+
+### Running the Development Server
+
+From inside the `doxitrak` directory:
+
+1. Start the dev server:
+	- `npm run dev`
+2. Open the printed local URL in your browser (for example `http://localhost:5173` or the next available port shown in the terminal).
+
+### Building for Production
+
+From inside the `doxitrak` directory:
+
+1. Build the app:
+	- `npm run build`
+2. Preview the production build (optional):
+	- `npm run preview`
+
+## Project Structure
+
+Key folders inside `doxitrak/src`:
+
+- `components/` – Reusable UI components such as Sidebar, Modal, StatCard, TechTicker, TransactionForm, and CustomTooltip.
+- `pages/` – Route-level views: Dashboard, Analytics, Budget, Goals, Settings, and Transactions.
+- `store/` – Global state and context (AppContext) for app-wide data.
+- `utils/` – Finance-related utility functions (for calculations and helpers).
+
+## Scripts
+
+Common npm scripts (run from `doxitrak`):
+
+- `npm run dev` – Start the Vite development server.
+- `npm run build` – Create a production build.
+- `npm run preview` – Preview the production build locally.
+- `npm run lint` – Run ESLint checks.
+
+## License
+
+This project is for personal and educational use. Adapt and extend it as needed for your own finance-tracking projects.

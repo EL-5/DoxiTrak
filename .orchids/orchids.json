@@ -1,7 +1,0 @@
-{
-  "startupCommands": [
-    "cd /home/user/app/neonpay && npm install; npm run dev -- --host 0.0.0.0"
-  ],
-  "projectId": "4081dfa6-d069-49aa-a9d6-66d673c0bed9",
-  "templateId": "any"
-}

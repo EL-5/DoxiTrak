@@ -64,7 +64,7 @@ export default function Settings() {
   }
 
   const handleReset = () => {
-    localStorage.removeItem('neonpay_state')
+    localStorage.removeItem('doxitrak_state')
     window.location.reload()
   }
 

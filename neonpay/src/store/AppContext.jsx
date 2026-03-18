@@ -39,7 +39,7 @@ const SEED_GOALS = [
 
 function loadState() {
   try {
-    const raw = localStorage.getItem('neonpay_state')
+    const raw = localStorage.getItem('doxitrak_state')
     if (raw) return JSON.parse(raw)
   } catch {}
   return null
@@ -98,7 +98,7 @@ export function AppProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, null, getInitialState)
 
   useEffect(() => {
-    localStorage.setItem('neonpay_state', JSON.stringify(state))
+    localStorage.setItem('doxitrak_state', JSON.stringify(state))
   }, [state])
 
   const addTransaction    = useCallback(t => dispatch({ type: 'ADD_TRANSACTION', payload: { ...t, id: Date.now().toString() } }), [])
