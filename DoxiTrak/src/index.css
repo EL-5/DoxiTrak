@@ -6,19 +6,20 @@
 
 /* ── CSS Variables ─────────────────────────────── */
 :root {
-  --bg:          #ffffff;
-  --bg-sub:      #f9f9f9;
+  /* Light theme – higher contrast but still soft */
+  --bg:          #f3f4f6;  /* slate-100 */
+  --bg-sub:      #e5e7eb;  /* slate-200 */
   --bg-card:     #ffffff;
-  --bg-hover:    #f4f4f4;
-  --border:      #e8e8e8;
-  --border-mid:  #d0d0d0;
-  --text:        #0a0a0a;
-  --text-sub:    #6b6b6b;
-  --text-muted:  #aaaaaa;
-  --accent:      #0a0a0a;
+  --bg-hover:    #e5e7eb;
+  --border:      #d1d5db;  /* slate-300 */
+  --border-mid:  #9ca3af;  /* slate-400 */
+  --text:        #020617;  /* slate-950 */
+  --text-sub:    #4b5563;  /* slate-600 */
+  --text-muted:  #9ca3af;  /* slate-400 */
+  --accent:      #020617;
   --accent-inv:  #ffffff;
-  --input-bg:    #f4f4f4;
-  --scrollbar:   #ddd;
+  --input-bg:    #f9fafb;  /* slate-50 */
+  --scrollbar:   #cbd5f5;
 }
 
 .dark {

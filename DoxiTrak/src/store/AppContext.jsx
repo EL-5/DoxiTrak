@@ -48,13 +48,14 @@ function loadState() {
 function getInitialState() {
   const saved = loadState()
   if (saved) return saved
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
   return {
     transactions: SEED_TRANSACTIONS,
     budgets: SEED_BUDGETS,
     goals: SEED_GOALS,
     settings: {
       currency: 'USD',
-      theme: 'dark',
+      theme: prefersDark ? 'dark' : 'light',
       monthlyBudget: 3000,
       name: 'Alex Johnson',
     },
