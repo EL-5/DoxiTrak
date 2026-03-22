@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Download, Trash2, User, DollarSign, Bell, Database, CheckCircle, Save, Sun, Moon } from 'lucide-react'
 import { useApp } from '../store/AppContext'
@@ -39,7 +39,7 @@ function SettingRow({ icon: Icon, label, description, children }) {
 }
 
 export default function Settings() {
-  const { state, updateSettings } = useApp()
+  const { state, updateSettings, resetAll } = useApp()
 
   // Local draft of settings — only applied on Save
   const [draft, setDraft] = useState({ ...state.settings })
@@ -47,6 +47,10 @@ export default function Settings() {
   const [showReset, setShowReset] = useState(false)
 
   const isDirty = JSON.stringify(draft) !== JSON.stringify(state.settings)
+
+  useEffect(() => {
+    setDraft({ ...state.settings })
+  }, [state.settings])
 
   const setDraftField = (k, v) => setDraft(d => ({ ...d, [k]: v }))
 
@@ -67,8 +71,10 @@ export default function Settings() {
   }
 
   const handleReset = () => {
-    localStorage.removeItem('doxitrak_state')
-    window.location.reload()
+    resetAll()
+    setShowReset(false)
+    setToast('All data and settings have been reset.')
+    setTimeout(() => setToast(null), 3000)
   }
 
   return (

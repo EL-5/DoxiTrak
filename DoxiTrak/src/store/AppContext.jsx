@@ -37,6 +37,19 @@ const SEED_GOALS = [
   { id: 'g3', name: 'Vacation Fund',  target: 3000,  saved: 650,  icon: '✈️', color: '#f59e0b', deadline: '2026-09-01' },
 ]
 
+function getDefaultSettings() {
+  const prefersDark = typeof window !== 'undefined'
+    && window.matchMedia
+    && window.matchMedia('(prefers-color-scheme: dark)').matches
+
+  return {
+    currency: 'USD',
+    theme: prefersDark ? 'dark' : 'light',
+    monthlyBudget: 3000,
+    name: 'Alex Johnson',
+  }
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem('doxitrak_state')
@@ -48,17 +61,11 @@ function loadState() {
 function getInitialState() {
   const saved = loadState()
   if (saved) return saved
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
   return {
     transactions: SEED_TRANSACTIONS,
     budgets: SEED_BUDGETS,
     goals: SEED_GOALS,
-    settings: {
-      currency: 'USD',
-      theme: prefersDark ? 'dark' : 'light',
-      monthlyBudget: 3000,
-      name: 'Alex Johnson',
-    },
+    settings: getDefaultSettings(),
   }
 }
 
@@ -88,6 +95,14 @@ function reducer(state, action) {
     case 'UPDATE_SETTINGS':
       return { ...state, settings: { ...state.settings, ...action.payload } }
 
+    case 'RESET_ALL':
+      return {
+        transactions: [],
+        budgets: [],
+        goals: [],
+        settings: getDefaultSettings(),
+      }
+
     default:
       return state
   }
@@ -115,9 +130,10 @@ export function AppProvider({ children }) {
   const deleteGoal = useCallback(id => dispatch({ type: 'DELETE_GOAL', payload: id }), [])
 
   const updateSettings = useCallback(s => dispatch({ type: 'UPDATE_SETTINGS', payload: s }), [])
+  const resetAll       = useCallback(() => dispatch({ type: 'RESET_ALL' }), [])
 
   return (
-    <AppContext.Provider value={{ state, addTransaction, updateTransaction, deleteTransaction, addBudget, updateBudget, deleteBudget, addGoal, updateGoal, deleteGoal, updateSettings }}>
+    <AppContext.Provider value={{ state, addTransaction, updateTransaction, deleteTransaction, addBudget, updateBudget, deleteBudget, addGoal, updateGoal, deleteGoal, updateSettings, resetAll }}>
       {children}
     </AppContext.Provider>
   )
